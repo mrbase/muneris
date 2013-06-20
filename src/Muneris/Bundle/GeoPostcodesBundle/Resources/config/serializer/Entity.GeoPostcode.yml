@@ -1,0 +1,39 @@
+Muneris\Bundle\GeoPostcodesBundle\Entity\GeoPostcode:
+    exclusion_policy: ALL
+    properties:
+        zipCode:
+            expose: true
+        city:
+            expose: true
+        country:
+            expose: true
+        area1:
+            expose: true
+        area2:
+            expose: true
+        language:
+            expose: true
+        lat:
+            expose: true
+        lng:
+            expose: true
+        region1:
+            expose: true
+        region2:
+            expose: true
+        region3:
+            expose: true
+        region4:
+            expose: true
+        regionCode:
+            expose: true
+        sequence:
+            expose: true
+        dst:
+            expose: true
+        tz:
+            expose: true
+        utc:
+            expose: true
+        updatedAt:
+            expose: true

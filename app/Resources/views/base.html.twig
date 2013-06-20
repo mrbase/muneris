@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8" />
+        <title>{% block title %}Welcome!{% endblock %}</title>
+        {% block stylesheets %}{% endblock %}
+        {# <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}" /> #}
+    </head>
+    <body>
+        <header>
+          <h1>Muneris</h1>
+          <h2>services for the people.</h2>
+        </header>
+
+        {% block body %}{% endblock %}
+
+        <footer>
+            <p>bellcom aps · <a href="http://bellcom.dk">bellcom.dk</a> ·  tlf: +45 7026 0085 · email: <a href="mailto:salg@bellcom.dk">salg@bellcom.dk</a></p>
+        </footer>
+
+        {% block javascripts %}{% endblock %}
+    </body>
+</html>

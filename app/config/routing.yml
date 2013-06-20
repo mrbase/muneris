@@ -1,0 +1,35 @@
+muneris_max_mind_rest:
+    type:     rest
+    resource: Muneris\Bundle\MaxMindBundle\Controller\IpController
+    prefix:   /mm/
+
+muneris_max_mind:
+    resource: "@MunerisMaxMindBundle/Controller/"
+    type:     annotation
+    prefix:   /mm/
+
+muneris_nno_rest:
+    type:     rest
+    resource: Muneris\Bundle\NnoBundle\Controller\NumberController
+    prefix:   /nno/
+
+muneris_nno:
+    resource: "@MunerisNnoBundle/Controller/"
+    type:     annotation
+    prefix:   /nno/
+
+muneris_geo_postcodes:
+    resource: "@MunerisGeoPostcodesBundle/Controller/"
+    type:     annotation
+    prefix:   /gpc/
+
+muneris_geo_postcodes_rest:
+    type: rest
+    resource: Muneris\Bundle\GeoPostcodesBundle\Controller\PostcodesController
+    prefix:   /gpc/
+
+homepage:
+    pattern:  /
+    defaults:
+        _controller: FrameworkBundle:Template:template
+        template: ::index.html.twig

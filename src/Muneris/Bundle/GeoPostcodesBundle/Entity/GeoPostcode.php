@@ -7,7 +7,7 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * GeoPostcode
  *
- * @ORM\Table(indexes={@ORM\index(name="country_zip_index", columns={"country", "zip_code"})})
+ * @ORM\Table(indexes={@ORM\Index(name="country_zip_index", columns={"country", "zip_code"})})
  * @ORM\Entity
  */
 class GeoPostcode

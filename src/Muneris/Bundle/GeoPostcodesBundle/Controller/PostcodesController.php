@@ -2,7 +2,7 @@
 
 namespace Muneris\Bundle\GeoPostcodesBundle\Controller;
 
-use Muneris\GeoPostcodesBundle\Entity\GeoPostcode;
+use Muneris\Bundle\GeoPostcodesBundle\Entity\GeoPostcode;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Cache;
 use FOS\RestBundle\Controller\Annotations\View;

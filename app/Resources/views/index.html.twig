@@ -1,21 +1,30 @@
 {%  extends '::base.html.twig' %}
 
-{% block title %}Muneris is here{% endblock %}
 {% block body %}
 
-  <article>
-    <h3>Nno lookup</h3>
-    <p>tba</p>
-  </article>
+  <div class="jumbotron">
+    <h1>Services for the people.</h1>
+    <p class="lead">One place to go for all your lookup service needs.</p>
+    <a class="btn btn-large btn-success" href="#">Sign up today</a>
+  </div>
 
-  <article>
-    <h3>Geo PostCode lookup</h3>
-    <p>tba</p>
-  </article>
+  <hr>
 
-  <article>
-    <h3>MaxMind lookup</h3>
-    <p>tba</p>
-  </article>
+  <div class="row-fluid marketing">
+    <div class="span4">
+      <h4>MaxMind</h4>
+      <p>Run all your MaxMind queries here.</p>
+    </div>
+
+    <div class="span4">
+      <h4>GeoPostcodes</h4>
+      <p>Have a zip code, and need to know where it's located ?</p>
+    </div>
+
+    <div class="span4">
+      <h4>NNO</h4>
+      <p>Lookup danish phone numbers and get the Person behind it.</p>
+    </div>
+  </div>
 
 {% endblock %}

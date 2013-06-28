@@ -1,23 +1,66 @@
 <!DOCTYPE html>
-<html>
-    <head>
-        <meta charset="UTF-8" />
-        <title>{% block title %}Welcome!{% endblock %}</title>
-        {% block stylesheets %}{% endblock %}
-        {# <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}" /> #}
-    </head>
-    <body>
-        <header>
-          <h1>Muneris</h1>
-          <h2>services for the people.</h2>
-        </header>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>{% block title %}muneris - services for the people{% endblock %}</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+{% block stylesheets %}
+<link href="/fx/bootstrap/css/bootstrap.css" rel="stylesheet">
+<style type="text/css">
+  body {
+    padding-top: 20px;
+    padding-bottom: 40px;
+  }
+  .container-narrow {
+    margin: 0 auto;
+    max-width: 700px;
+  }
+  .container-narrow > hr {
+    margin: 30px 0;
+  }
+  .jumbotron {
+    margin: 60px 0;
+    text-align: center;
+  }
+  .jumbotron h1 {
+    font-size: 72px;
+    line-height: 1;
+  }
+  .jumbotron .btn {
+    font-size: 21px;
+    padding: 14px 24px;
+  }
+  .marketing {
+    margin: 60px 0;
+  }
+  .marketing p + h4 {
+    margin-top: 28px;
+  }
+</style>
+<link href="/fx/bootstrap/css/bootstrap-responsive.css" rel="stylesheet">
+{% endblock %}
+<!--[if lt IE 9]>
+<script src="/fx/bootstrap/js/html5shiv.js"></script>
+<![endif]-->
+</head>
+<body>
+<div class="container-narrow">
+  <div class="masthead">
+    <ul class="nav nav-pills pull-right">
+      <li class="active"><a href="#">Home</a></li>
+      <li><a href="#">About</a></li>
+      <li><a href="http://bellcom.dk/">Contact</a></li>
+    </ul>
+    <h3 class="muted">Muneris</h3>
+  </div>
+  <hr>
+{% block body %}{% endblock %}
+  <hr>
+  <div class="footer">
+    <p>&copy; bellcom aps · <a href="http://bellcom.dk">bellcom.dk</a> · tlf: +45 7026 0085 · email: <a href="mailto:salg@bellcom.dk">salg@bellcom.dk</a></p>
+  </div>
+</div
 
-        {% block body %}{% endblock %}
-
-        <footer>
-            <p>bellcom aps · <a href="http://bellcom.dk">bellcom.dk</a> ·  tlf: +45 7026 0085 · email: <a href="mailto:salg@bellcom.dk">salg@bellcom.dk</a></p>
-        </footer>
-
-        {% block javascripts %}{% endblock %}
-    </body>
+{% block javascripts %}{% endblock %}
+</body>
 </html>

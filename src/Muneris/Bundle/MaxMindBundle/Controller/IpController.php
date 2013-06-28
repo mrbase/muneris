@@ -6,43 +6,25 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Cache;
 use FOS\RestBundle\Controller\Annotations\View;
 use Symfony\Component\HttpFoundation\JsonResponse;
-use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Exception;
 
 class IpController extends Controller
 {
     /**
-     * @param  Request $request
-     * @param  string  $ip
+     * @param  string $ip ip2long formatted
      * @return array
      * @throws NotFoundHttpException
      * @View()
      * @Cache(smaxage="86400")
      */
-    public function getCityAction(Request $request, $ip)
+    public function getCityAction($ip)
     {
+        $ip = long2ip((int) $ip);
+
         // TODO:
         //  - use $info->queriesRemaining to keep track of quota
-        //  - implement cache
-
-        $info = $this->get('muneris.max_mind.service')->lookup($ip, 'city');
-
-        $data = [
-            'city' => [
-                'name' => $info->city->name,
-                'zip_code' => $info->postal->code,
-                'continent' => $info->continent->name,
-                'location' => [
-                    'longitude' => $info->location->latitude,
-                    'latitude'  => $info->location->latitude,
-                    'time_zone' => $info->location->timeZone,
-                ]
-            ]
-        ];
-
-        $response = ['city' => $data];
+        $response = ['city' => $this->get('muneris.max_mind.service')->lookup($ip, 'city')];
 
         $jsonp = $this->get('muneris.jsonp.handler');
         if ($jsonp->isJsonpRequest()) {

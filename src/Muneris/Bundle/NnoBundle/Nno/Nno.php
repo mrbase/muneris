@@ -61,7 +61,7 @@ Class Nno
         $lookup->phone = $number;
         $lookup->username = $this->api_key;
 
-        $this->logger->info('Looking up: '.$number.' via Nno service.');
+        $this->logger->info('Looking up: '.$number.' via NNO service.');
 
         $nno = new Client();
         $result = $nno->lookupSubscribers($lookup);

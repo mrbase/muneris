@@ -29,8 +29,8 @@ class NumberController extends Controller
         }
 
         $response = [
-            '_time'  => $stopwatch->stop('lookup')->getDuration(),
             'number' => $info,
+            '_time'  => $stopwatch->stop('lookup')->getDuration().'ms',
         ];
 
         $jsonp = $this->get('muneris.jsonp.handler');

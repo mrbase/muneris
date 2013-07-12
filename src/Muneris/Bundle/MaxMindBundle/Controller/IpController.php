@@ -22,7 +22,7 @@ class IpController extends Controller
     public function getCityAction($ip)
     {
         $stopwatch = new Stopwatch();
-        $stopwatch->start('lookup');
+        $stopwatch->start('mm');
 
         $ip = long2ip((int) $ip);
 
@@ -30,8 +30,8 @@ class IpController extends Controller
         //  - use $info->queriesRemaining to keep track of quota
 
         $response = [
-            '_time' => $stopwatch->stop('lookup')->getDuration(),
-            'city'  => $this->get('muneris.max_mind.service')->lookup($ip, 'city')
+            'city'  => $this->get('muneris.max_mind.service')->lookup($ip, 'city'),
+            '_time' => $stopwatch->stop('mm')->getDuration().'ms',
         ];
 
         $jsonp = $this->get('muneris.jsonp.handler');

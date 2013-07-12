@@ -7,6 +7,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Cache;
 use FOS\RestBundle\Controller\Annotations\View;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+use Symfony\Component\Stopwatch\Stopwatch;
 use Exception;
 
 class IpController extends Controller
@@ -20,11 +21,18 @@ class IpController extends Controller
      */
     public function getCityAction($ip)
     {
+        $stopwatch = new Stopwatch();
+        $stopwatch->start('lookup');
+
         $ip = long2ip((int) $ip);
 
         // TODO:
         //  - use $info->queriesRemaining to keep track of quota
-        $response = ['city' => $this->get('muneris.max_mind.service')->lookup($ip, 'city')];
+
+        $response = [
+            '_time' => $stopwatch->stop('lookup')->getDuration(),
+            'city'  => $this->get('muneris.max_mind.service')->lookup($ip, 'city')
+        ];
 
         $jsonp = $this->get('muneris.jsonp.handler');
         if ($jsonp->isJsonpRequest()) {

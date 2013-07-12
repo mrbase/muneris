@@ -6,6 +6,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Cache;
 use FOS\RestBundle\Controller\Annotations\View;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+use Symfony\Component\Stopwatch\Stopwatch;
 
 class NumberController extends Controller
 {
@@ -18,13 +19,19 @@ class NumberController extends Controller
      */
     public function getNumberAction($number)
     {
+        $stopwatch = new Stopwatch();
+        $stopwatch->start('lookup');
+
         $info = $this->get('muneris.nno.service')->findOne($number);
 
         if (false === $info) {
             throw new NotFoundHttpException("Unknown number '{$number}'");
         }
 
-        $response = ['number' => $info];
+        $response = [
+            '_time'  => $stopwatch->stop('lookup')->getDuration(),
+            'number' => $info,
+        ];
 
         $jsonp = $this->get('muneris.jsonp.handler');
         if ($jsonp->isJsonpRequest()) {

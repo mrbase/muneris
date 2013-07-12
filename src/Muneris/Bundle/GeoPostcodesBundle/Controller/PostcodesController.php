@@ -70,8 +70,8 @@ class PostcodesController extends Controller
         }
 
         $response = [
-            '_time'    => $stopwatch->stop('lookup')->getDuration(),
             'postcode' => $postcode,
+            '_time'    => $stopwatch->stop('lookup')->getDuration().'ms',
         ];
 
         $jsonp = $this->get('muneris.jsonp.handler');

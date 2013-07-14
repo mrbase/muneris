@@ -81,4 +81,41 @@ class PostcodesController extends Controller
 
         return $response;
     }
+
+    /**
+     * @param  string $city
+     * @param  string $country
+     * @return array
+     * @throws NotFoundHttpException
+     * @Cache(smaxage="86400")
+     * @View()
+     */
+    public function getCountryCityAction($country, $city)
+    {
+        $stopwatch = new Stopwatch();
+        $stopwatch->start('lookup');
+
+        $postcode = $this->getDoctrine()
+            ->getRepository('MunerisGeoPostcodesBundle:GeoPostcode')
+            ->findOneBy([
+                'city'    => urldecode($city),
+                'country' => $country
+        ]);
+
+        if (!$postcode instanceof GeoPostcode) {
+            throw new NotFoundHttpException('City code not found');
+        }
+
+        $response = [
+            'postcode' => $postcode,
+            '_time'    => $stopwatch->stop('lookup')->getDuration().'ms',
+        ];
+
+        $jsonp = $this->get('muneris.jsonp.handler');
+        if ($jsonp->isJsonpRequest()) {
+            return $jsonp->sendResponse($response);
+        }
+
+        return $response;
+    }
 }

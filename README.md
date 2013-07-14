@@ -46,11 +46,13 @@ To use these services you need keys for both.
 
 ### GeoPostal:
 
-`http://server/gpc/countries/{iso2 country code}/cities/{postal code}.json`
+`http://server/gpc/countries/{iso2 country code}/cities/{city name}.json`
+`http://server/gpc/countries/{iso2 country code}/postcodes/{zip code}.json`
 
 eks:
 
-`http://server/gpc/countries/DK/cities/2100.json`
+`http://server/gpc/countries/DK/cities/Kolding.json`
+`http://server/gpc/countries/DK/postcodes/6000.json`
 
 
 ### NNO:

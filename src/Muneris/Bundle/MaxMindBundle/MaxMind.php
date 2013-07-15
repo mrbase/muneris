@@ -60,7 +60,7 @@ class MaxMind
                 'code' => $data->continent->code,
             ],
             'location' => [
-                'longitude' => $data->location->latitude,
+                'longitude' => $data->location->longitude,
                 'latitude'  => $data->location->latitude,
                 'time_zone' => $data->location->timeZone,
             ],

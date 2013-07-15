@@ -108,14 +108,14 @@ class GeoPostcode
     /**
      * @var float
      *
-     * @ORM\Column(name="lat", type="decimal")
+     * @ORM\Column(name="lat", type="decimal", precision="10", scale="8")
      */
     private $lat;
 
     /**
      * @var float
      *
-     * @ORM\Column(name="lng", type="decimal")
+     * @ORM\Column(name="lng", type="decimal", precision="10", scale="8")
      */
     private $lng;
 
@@ -158,7 +158,7 @@ class GeoPostcode
     /**
      * Get id
      *
-     * @return integer 
+     * @return integer
      */
     public function getId()
     {
@@ -174,14 +174,14 @@ class GeoPostcode
     public function setCountry($country)
     {
         $this->country = $country;
-    
+
         return $this;
     }
 
     /**
      * Get country
      *
-     * @return string 
+     * @return string
      */
     public function getCountry()
     {
@@ -197,14 +197,14 @@ class GeoPostcode
     public function setLanguage($language)
     {
         $this->language = $language;
-    
+
         return $this;
     }
 
     /**
      * Get language
      *
-     * @return string 
+     * @return string
      */
     public function getLanguage()
     {
@@ -220,14 +220,14 @@ class GeoPostcode
     public function setSequence($sequence)
     {
         $this->sequence = $sequence;
-    
+
         return $this;
     }
 
     /**
      * Get sequence
      *
-     * @return integer 
+     * @return integer
      */
     public function getSequence()
     {
@@ -243,14 +243,14 @@ class GeoPostcode
     public function setRegionCode($regionCode)
     {
         $this->regionCode = $regionCode;
-    
+
         return $this;
     }
 
     /**
      * Get regionCode
      *
-     * @return string 
+     * @return string
      */
     public function getRegionCode()
     {
@@ -266,14 +266,14 @@ class GeoPostcode
     public function setRegion1($region1)
     {
         $this->region1 = $region1;
-    
+
         return $this;
     }
 
     /**
      * Get region1
      *
-     * @return string 
+     * @return string
      */
     public function getRegion1()
     {
@@ -289,14 +289,14 @@ class GeoPostcode
     public function setRegion2($region2)
     {
         $this->region2 = $region2;
-    
+
         return $this;
     }
 
     /**
      * Get region2
      *
-     * @return string 
+     * @return string
      */
     public function getRegion2()
     {
@@ -358,14 +358,14 @@ class GeoPostcode
     public function setZipCode($zipCode)
     {
         $this->zipCode = $zipCode;
-    
+
         return $this;
     }
 
     /**
      * Get zipCode
      *
-     * @return string 
+     * @return string
      */
     public function getZipCode()
     {
@@ -381,14 +381,14 @@ class GeoPostcode
     public function setCity($city)
     {
         $this->city = $city;
-    
+
         return $this;
     }
 
     /**
      * Get city
      *
-     * @return string 
+     * @return string
      */
     public function getCity()
     {
@@ -404,14 +404,14 @@ class GeoPostcode
     public function setArea1($area1)
     {
         $this->area1 = $area1;
-    
+
         return $this;
     }
 
     /**
      * Get area1
      *
-     * @return string 
+     * @return string
      */
     public function getArea1()
     {
@@ -427,14 +427,14 @@ class GeoPostcode
     public function setArea2($area2)
     {
         $this->area2 = $area2;
-    
+
         return $this;
     }
 
     /**
      * Get area2
      *
-     * @return string 
+     * @return string
      */
     public function getArea2()
     {
@@ -450,14 +450,14 @@ class GeoPostcode
     public function setLat($lat)
     {
         $this->lat = $lat;
-    
+
         return $this;
     }
 
     /**
      * Get lat
      *
-     * @return float 
+     * @return float
      */
     public function getLat()
     {
@@ -473,14 +473,14 @@ class GeoPostcode
     public function setLng($lng)
     {
         $this->lng = $lng;
-    
+
         return $this;
     }
 
     /**
      * Get lng
      *
-     * @return float 
+     * @return float
      */
     public function getLng()
     {
@@ -496,14 +496,14 @@ class GeoPostcode
     public function setTz($tz)
     {
         $this->tz = $tz;
-    
+
         return $this;
     }
 
     /**
      * Get tz
      *
-     * @return string 
+     * @return string
      */
     public function getTz()
     {
@@ -519,14 +519,14 @@ class GeoPostcode
     public function setUtc($utc)
     {
         $this->utc = $utc;
-    
+
         return $this;
     }
 
     /**
      * Get utc
      *
-     * @return string 
+     * @return string
      */
     public function getUtc()
     {
@@ -542,14 +542,14 @@ class GeoPostcode
     public function setDst($dst)
     {
         $this->dst = $dst;
-    
+
         return $this;
     }
 
     /**
      * Get dst
      *
-     * @return boolean 
+     * @return boolean
      */
     public function getDst()
     {
@@ -565,14 +565,14 @@ class GeoPostcode
     public function setCreatedAt($createdAt)
     {
         $this->createdAt = $createdAt;
-    
+
         return $this;
     }
 
     /**
      * Get createdAt
      *
-     * @return \DateTime 
+     * @return \DateTime
      */
     public function getCreatedAt()
     {
@@ -588,14 +588,14 @@ class GeoPostcode
     public function setUpdatedAt($updatedAt)
     {
         $this->updatedAt = $updatedAt;
-    
+
         return $this;
     }
 
     /**
      * Get updatedAt
      *
-     * @return \DateTime 
+     * @return \DateTime
      */
     public function getUpdatedAt()
     {

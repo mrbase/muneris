@@ -8,7 +8,7 @@ use Doctrine\ORM\Mapping as ORM;
  * GeoPostcode
  *
  * @ORM\Table(indexes={@ORM\Index(name="country_zip_index", columns={"country", "zip_code"})})
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="Muneris\Bundle\GeoPostcodesBundle\Entity\GeoPostcodeRepository")
  */
 class GeoPostcode
 {
@@ -108,14 +108,14 @@ class GeoPostcode
     /**
      * @var float
      *
-     * @ORM\Column(name="lat", type="decimal", precision="10", scale="8")
+     * @ORM\Column(name="lat", type="decimal", precision=10, scale=8)
      */
     private $lat;
 
     /**
      * @var float
      *
-     * @ORM\Column(name="lng", type="decimal", precision="10", scale="8")
+     * @ORM\Column(name="lng", type="decimal", precision=10, scale=8)
      */
     private $lng;
 

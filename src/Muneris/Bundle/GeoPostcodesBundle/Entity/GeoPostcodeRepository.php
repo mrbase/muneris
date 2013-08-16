@@ -41,7 +41,7 @@ class GeoPostcodeRepository extends EntityRepository
             ->setParameters($this->params)
             ->setMaxResults(1)
             ->getQuery()
-            ->getResult();
+            ->getResult()
         ;
 
         if (count($result)) {
@@ -93,8 +93,8 @@ class GeoPostcodeRepository extends EntityRepository
             case 'NL':
                 if (!preg_match('/^[0-9]+$/', $this->fuzzy)) {
                     $or->add($qb->expr()->eq('g.zipCode', ':zip1'));
-                    $zip = substr($this->fuzzy, 0, (strlen($this->fuzzy) -2)).' '.substr($this->fuzzy, -2);
-                    $this->params[':zip1'] = str_replace(' ', '-', $zip);
+                    $this->params[':zip1'] = substr($this->fuzzy, 0, (strlen($this->fuzzy) -2)).' '.substr($this->fuzzy, -2);
+
                 }
                 break;
 
@@ -109,8 +109,7 @@ class GeoPostcodeRepository extends EntityRepository
                 // Sweeden and Greese uses the format "xxx xx" for zip codes, if a number is send, we convert it.
                 if (preg_match('/^[0-9]+$/', $this->fuzzy)) {
                     $or->add($qb->expr()->eq('g.zipCode', ':zip1'));
-                    $zip = substr($this->fuzzy, 0, (strlen($this->fuzzy) -2)).' '.substr($this->fuzzy, -2);
-                    $this->params[':zip1'] = $zip;
+                    $this->params[':zip1'] = substr($this->fuzzy, 0, (strlen($this->fuzzy) -2)).' '.substr($this->fuzzy, -2);
                 }
                 break;
         }

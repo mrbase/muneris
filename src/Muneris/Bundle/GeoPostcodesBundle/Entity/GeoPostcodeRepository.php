@@ -86,6 +86,7 @@ class GeoPostcodeRepository extends EntityRepository
                 break;
 
             case 'GB':
+            case 'NL':
                 $or->add($qb->expr()->eq('g.zipCode', ':zip1'));
                 $this->params[':zip1'] = str_replace(' ', '', $this->fuzzy);
                 break;

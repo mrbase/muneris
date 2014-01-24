@@ -46,8 +46,8 @@ class PostcodesController extends Controller
     }
 
     /**
-     * @param  string $zip_code
      * @param  string $country
+     * @param  string $zip_code
      * @return array
      * @throws NotFoundHttpException
      * @Cache(smaxage="86400")
@@ -58,11 +58,20 @@ class PostcodesController extends Controller
         $stopwatch = new Stopwatch();
         $stopwatch->start('lookup');
 
+        switch (strtoupper($country)) {
+            case 'SE':
+                $zip_code = [
+                    $zip_code,
+                    substr($zip_code, 0, (strlen($zip_code) -2)).' '.substr($zip_code, -2)
+                ];
+                break;
+        }
+
         $postcode = $this->getDoctrine()
             ->getRepository('MunerisGeoPostcodesBundle:GeoPostcode')
             ->findOneBy([
                 'zipCode' => $zip_code,
-                'country'  => $country
+                'country' => $country
         ]);
 
         if (!$postcode instanceof GeoPostcode) {

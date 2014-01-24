@@ -41,6 +41,8 @@ class ImportCommand extends ContainerAwareCommand
             return;
         }
 
+        $total_size = filesize($file);
+
         if ('prod' !== $this->getContainer()->get('kernel')->getEnvironment()) {
             $output->writeln('<error>Please use --env=prod to run this. In dev or test you will run out of memory ...</error>');
             return;
@@ -65,7 +67,7 @@ class ImportCommand extends ContainerAwareCommand
 
             // skip header line
             if ($i == 0) {
-                $progress->start($output);
+                $progress->start($output, $total_size);
                 continue;
             }
 
@@ -91,7 +93,7 @@ class ImportCommand extends ContainerAwareCommand
                 'updated_at'  => 'now()',
             ]);
 
-            $progress->advance();
+            $progress->advance(strlen(implode('', $data))+45);
         }
         $progress->finish();
         $output->writeln('<info>Done! Imported '.$i.' records in '.(time() - $start).' seconds.</info>');

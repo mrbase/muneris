@@ -1,11 +1,4 @@
 <?php
-/**
- * Created by JetBrains PhpStorm.
- * User: un
- * Date: 27/06/13
- * Time: 20.27
- * To change this template use File | Settings | File Templates.
- */
 
 namespace Muneris\Bundle\GeoPostcodesBundle\Command;
 
@@ -16,7 +9,7 @@ use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use PDO;
 
-class ImportCommand extends ContainerAwareCommand
+class GpcImportCommand extends ContainerAwareCommand
 {
     protected function configure()
     {
@@ -59,7 +52,7 @@ class ImportCommand extends ContainerAwareCommand
         $start = time();
         $i = -1;
         while (($data = fgetcsv($fp, 2048, ';')) !== false) {
-            if (17 !== count($data)) {
+            if (24 !== count($data)) {
                 $output->writeln('<error>Wrong column count for data file.</error>');
                 return;
             }
@@ -71,24 +64,27 @@ class ImportCommand extends ContainerAwareCommand
                 continue;
             }
 
+            iso;country;language;id;region1;region2;region3;region4;locality;postcode;suburb;street;range;latitude;longitude;elevation;iso2;fips;nuts;hasc;stat;timezone;utc;dst
+
+
             $conn->insert('GeoPostcode', [
-                'country'     => $data[0],
-                'language'    => $data[1],
-                'sequence'    => $data[2],
-                'region_code' => $data[3],
-                'region_1'    => $data[4],
-                'region_2'    => $data[5],
-                'region_3'    => $data[6],
-                'region_4'    => $data[7],
-                'zip_code'    => $data[8],
-                'city'        => $data[9],
-                'area_1'      => $data[10],
-                'area_2'      => $data[11],
-                'lat'         => $data[12],
-                'lng'         => $data[13],
-                'tz'          => $data[14],
-                'utc'         => $data[15],
-                'dst'         => $data[16],
+                'country'     => $data[1],
+                'language'    => $data[2],
+                'sequence'    => $data[3],
+                'region_code' => $data[4],
+                'region_1'    => $data[5],
+                'region_2'    => $data[6],
+                'region_3'    => $data[7],
+                'region_4'    => $data[8],
+                'zip_code'    => $data[9],
+                'city'        => $data[10],
+                'area_1'      => $data[11],
+                'area_2'      => $data[12],
+                'lat'         => $data[13],
+                'lng'         => $data[14],
+                'tz'          => $data[15],
+                'utc'         => $data[16],
+                'dst'         => $data[17],
                 'created_at'  => 'now()',
                 'updated_at'  => 'now()',
             ]);

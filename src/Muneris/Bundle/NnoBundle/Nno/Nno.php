@@ -84,10 +84,14 @@ Class Nno
             unset($address['_t_d_c__p_i_d'], $address['TDC_PID']);
 
             // if there is no surname, we parse the christian name
-            if (empty($address['surname']) && strpos($address['christianname'], ' ') > 0) {
-                $names = explode(' ', $address['christianname']);
-                $address['surname'] = array_pop($names);
-                $address['christianname'] = implode(' ', $names);
+            if (empty($address['surname'])) {
+                $address['surname'] = '';
+
+                if (strpos($address['christianname'], ' ') > 0) {
+                    $names = explode(' ', $address['christianname']);
+                    $address['surname'] = array_pop($names);
+                    $address['christianname'] = implode(' ', $names);
+                }
             }
 
             return $address;

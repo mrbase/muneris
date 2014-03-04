@@ -18,6 +18,37 @@ class GeoPostcodeRepository extends EntityRepository
     protected $params = [];
 
     /**
+     * Find All Cities grouped by city name.
+     *
+     * @param array $criterias Criterias including country and zipCode
+     *
+     * @return mixed
+     */
+    public function findCities($criterias) {
+
+        $this->params = $criterias;
+
+        $qb = $this->createQueryBuilder('g')
+            ->groupBy('g.city')
+            ->where('g.country = :country');
+        ;
+        if (isset($this->params[':zipCode'])) {
+            $qb->andWhere('g.zipCode = :zipCode');
+        }
+
+        $result = $qb->setParameters($this->params)
+            ->getQuery()
+            ->getResult()
+        ;
+
+        if (count($result)) {
+            return $result;
+        }
+
+        return null;
+    }
+
+    /**
      * FindByFuzzy tries to find cities based on either zip code or city name
      * The zip code is guessed from many formats, some are known, some are not.
      *
@@ -35,6 +66,7 @@ class GeoPostcodeRepository extends EntityRepository
 
         $qb = $this->createQueryBuilder('g')
             ->where('g.country = :country')
+            ->groupBy('g.city')
         ;
 
         $result = $this->fuzz($qb)

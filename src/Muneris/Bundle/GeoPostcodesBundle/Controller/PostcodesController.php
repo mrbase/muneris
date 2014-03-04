@@ -25,7 +25,7 @@ class PostcodesController extends Controller
 
         $postcodes = $this->getDoctrine()
             ->getRepository('MunerisGeoPostcodesBundle:GeoPostcode')
-            ->findBy(['country' => $country])
+            ->findCities([':country' => $country])
         ;
 
         if (0 == count($postcodes)) {
@@ -69,9 +69,9 @@ class PostcodesController extends Controller
 
         $postcodes = $this->getDoctrine()
             ->getRepository('MunerisGeoPostcodesBundle:GeoPostcode')
-            ->findBy([
-                'zipCode' => $zip_code,
-                'country' => $country
+            ->findCities([
+                ':zipCode' => $zip_code,
+                ':country' => $country
         ]);
 
         if (0 == count($postcodes)) {

@@ -67,19 +67,19 @@ class PostcodesController extends Controller
                 break;
         }
 
-        $postcode = $this->getDoctrine()
+        $postcodes = $this->getDoctrine()
             ->getRepository('MunerisGeoPostcodesBundle:GeoPostcode')
-            ->findOneBy([
+            ->findBy([
                 'zipCode' => $zip_code,
                 'country' => $country
         ]);
 
-        if (!$postcode instanceof GeoPostcode) {
+        if (0 == count($postcodes)) {
             throw new NotFoundHttpException('Zip code not found');
         }
 
         $response = [
-            'postcode' => $postcode,
+            'postcodes' => $postcodes,
             '_time'    => $stopwatch->stop('lookup')->getDuration().'ms',
         ];
 
@@ -104,19 +104,19 @@ class PostcodesController extends Controller
         $stopwatch = new Stopwatch();
         $stopwatch->start('lookup');
 
-        $postcode = $this->getDoctrine()
+        $postcodes = $this->getDoctrine()
             ->getRepository('MunerisGeoPostcodesBundle:GeoPostcode')
-            ->findOneBy([
+            ->findBy([
                 'city'    => urldecode($city),
                 'country' => $country
         ]);
 
-        if (!$postcode instanceof GeoPostcode) {
+        if (0 == count($postcodes)) {
             throw new NotFoundHttpException('City code not found');
         }
 
         $response = [
-            'postcode' => $postcode,
+            'postcodes' => $postcodes,
             '_time'    => $stopwatch->stop('lookup')->getDuration().'ms',
         ];
 
@@ -141,17 +141,17 @@ class PostcodesController extends Controller
         $stopwatch = new Stopwatch();
         $stopwatch->start('lookup');
 
-        $postcode = $this->getDoctrine()
+        $postcodes = $this->getDoctrine()
             ->getRepository('MunerisGeoPostcodesBundle:GeoPostcode')
             ->findByFuzzy($country, $fuzzy)
         ;
 
-        if (!$postcode instanceof GeoPostcode) {
+        if (0 == count($postcodes)) {
             throw new NotFoundHttpException('City code not found');
         }
 
         $response = [
-            'postcode' => $postcode,
+            'postcodes' => $postcodes,
             '_time'    => $stopwatch->stop('lookup')->getDuration().'ms',
         ];
 

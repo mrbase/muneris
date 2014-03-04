@@ -39,13 +39,12 @@ class GeoPostcodeRepository extends EntityRepository
 
         $result = $this->fuzz($qb)
             ->setParameters($this->params)
-            ->setMaxResults(1)
             ->getQuery()
             ->getResult()
         ;
 
         if (count($result)) {
-            return $result[0];
+            return $result;
         }
 
         return null;

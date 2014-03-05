@@ -32,9 +32,6 @@ class GeoPostcodeRepository extends EntityRepository
             ->groupBy('g.city')
             ->where('g.country = :country');
         ;
-        if (isset($this->params[':zipCode'])) {
-            $qb->andWhere('g.zipCode = :zipCode');
-        }
 
         $result = $qb->setParameters($this->params)
             ->getQuery()

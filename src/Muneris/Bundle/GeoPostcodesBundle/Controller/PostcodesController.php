@@ -58,21 +58,10 @@ class PostcodesController extends Controller
         $stopwatch = new Stopwatch();
         $stopwatch->start('lookup');
 
-        switch (strtoupper($country)) {
-            case 'SE':
-                $zip_code = [
-                    $zip_code,
-                    substr($zip_code, 0, (strlen($zip_code) -2)).' '.substr($zip_code, -2)
-                ];
-                break;
-        }
-
         $postcodes = $this->getDoctrine()
             ->getRepository('MunerisGeoPostcodesBundle:GeoPostcode')
-            ->findCities([
-                ':zipCode' => $zip_code,
-                ':country' => $country
-        ]);
+            ->findByFuzzy($country, $zip_code)
+        ;
 
         if (0 == count($postcodes)) {
             throw new NotFoundHttpException('Zip code not found');

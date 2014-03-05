@@ -48,11 +48,13 @@ To use these services you need keys for both.
 
 `http://server/gpc/countries/{iso2 country code}/cities/{city name}.json`
 `http://server/gpc/countries/{iso2 country code}/postcodes/{zip code}.json`
+`http://server/gpc/countries/{iso2 country code}/postcodes.json`
 
 eks:
 
 `http://server/gpc/countries/DK/cities/Kolding.json`
 `http://server/gpc/countries/DK/postcodes/6000.json`
+`http://server/gpc/countries/DK/postcodes.json`
 
 
 ### NNO:

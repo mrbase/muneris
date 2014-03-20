@@ -12,11 +12,11 @@ parameters:
     mailer_password:   ~
 
     locale:            en
-    secret:            "NotSoSecret PleaseChange :)"
+    secret:            "læs kdjfæslkdjælsjalæsjdfaæsfdælaskjdfasdf'as dfl38 rlhsdfjkl"
 
     #nno
-    nno_key:
+    nno_key: ~
 
     #maxmind
-    maxmind_uid:
-    maxmind_key:
+    maxmind_uid: ~
+    maxmind_key: ~

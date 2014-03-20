@@ -28,6 +28,10 @@ muneris_geo_postcodes_rest:
     resource: Muneris\Bundle\GeoPostcodesBundle\Controller\PostcodesController
     prefix:   /gpc/
 
+NelmioApiDocBundle:
+  resource: "@NelmioApiDocBundle/Resources/config/routing.yml"
+  prefix:   /api/doc
+
 homepage:
     pattern:  /
     defaults:

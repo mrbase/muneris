@@ -4,17 +4,25 @@
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
 
-<!--
     <parameters>
-        <parameter key="muneris_geo_postcodes.nno.class">Muneris\NnoBundle\Nno\Nno</parameter>
+        <parameter key="muneris_geo_postcodes.localpostcode.form.class">Muneris\Bundle\GeoPostcodesBundle\Form\LocalGeoPostcodeType</parameter>
+
+        <parameter key="muneris_geo_postcodes.localpostcode.handler.class">Muneris\Bundle\GeoPostcodesBundle\Handler\PostcodeHandler</parameter>
+        <parameter key="muneris_geo_postcodes.localpostcode.class">Muneris\Bundle\GeoPostcodesBundle\Entity\LocalGeoPostcode</parameter>
+        <parameter key="muneris_geo_postcodes.postcode.class">Muneris\Bundle\GeoPostcodesBundle\Entity\GeoPostcode</parameter>
     </parameters>
 
     <services>
-        <service id="muneris.nno.service" class="%muneris_geo_postcodes.nno.class%">
-            <argument></argument>
-            <argument type="service" id="logger"/>
+        <service id="muneris_geo_postcodes.postcode.handler" class="%muneris_geo_postcodes.localpostcode.handler.class%" scope="request">
+            <argument type="service" id="doctrine.orm.entity_manager" />
+            <argument type="service" id="muneris.jsonp.handler" />
+            <argument type="service" id="form.factory" />
+            <argument>%muneris_geo_postcodes.postcode.class%</argument>
+            <argument>%muneris_geo_postcodes.localpostcode.class%</argument>
+        </service>
+
+        <service id="muneris_geo_postcodes.localpostcode.form.type.task" class="%muneris_geo_postcodes.localpostcode.form.class%">
+            <tag name="form.type" alias="localpostcode" />
         </service>
     </services>
--->
-
 </container>

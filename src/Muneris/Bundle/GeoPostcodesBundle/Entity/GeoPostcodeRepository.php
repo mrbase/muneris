@@ -24,16 +24,14 @@ class GeoPostcodeRepository extends EntityRepository
      *
      * @return mixed
      */
-    public function findCities($criterias) {
-
-        $this->params = $criterias;
-
+    public function findCities($criterias)
+    {
         $qb = $this->createQueryBuilder('g')
             ->groupBy('g.city')
             ->where('g.country = :country');
         ;
 
-        $result = $qb->setParameters($this->params)
+        $result = $qb->setParameters($criterias)
             ->getQuery()
             ->getResult()
         ;
@@ -56,18 +54,15 @@ class GeoPostcodeRepository extends EntityRepository
      */
     public function findByFuzzy($country, $fuzzy)
     {
-        $this->country = $country;
-        $this->fuzzy   = $fuzzy;
-
-        $this->params[':country'] = $country;
-
         $qb = $this->createQueryBuilder('g')
             ->where('g.country = :country')
             ->groupBy('g.city')
         ;
 
-        $result = $this->fuzz($qb)
-            ->setParameters($this->params)
+        $fb = new FuzzyBuilder($qb, $country, $fuzzy);
+        $fb->fuzz([':country' => $country]);
+
+        $result =  $qb->setParameters($fb->getParameters())
             ->getQuery()
             ->getResult()
         ;
@@ -77,72 +72,5 @@ class GeoPostcodeRepository extends EntityRepository
         }
 
         return null;
-    }
-
-
-    /**
-     * Fuzz the query
-     * Currently it handles FI, GB, GR, MT, PT AND SV
-     *
-     * @param  QueryBuilder $qb
-     * @return QueryBuilder
-     */
-    protected function fuzz(QueryBuilder $qb)
-    {
-        if (preg_match('/^[a-z -]+$/i', $this->fuzzy)) {
-            $qb->andWhere('g.city = :city');
-            $this->params[':city'] = $this->fuzzy;
-
-            return $qb;
-        }
-
-        $or = $qb->expr()->orX();
-
-        if (!preg_match('/^[0-9 -]+$/', $this->fuzzy)) {
-            $this->params[':city'] = $this->fuzzy;
-            $or->add($qb->expr()->eq('g.city', ':city'));
-        }
-
-        $this->params[':zip'] = $this->fuzzy;
-        $or->add($qb->expr()->eq('g.zipCode', ':zip'));
-
-        switch (strtoupper($this->country)) {
-            case 'FI':
-                // in Finland zip codes is always 5 digits with left padded zeros
-                $or->add($qb->expr()->eq('g.zipCode', ':zip1'));
-                $this->params[':zip1'] = sprintf('%05d', $this->fuzzy);
-                break;
-
-            case 'GB':
-                $or->add($qb->expr()->eq('g.zipCode', ':zip1'));
-                $this->params[':zip1'] = str_replace(' ', '', $this->fuzzy);
-                break;
-
-            case 'NL':
-                if (!preg_match('/^[0-9]+$/', $this->fuzzy)) {
-                    $or->add($qb->expr()->eq('g.zipCode', ':zip1'));
-                    $this->params[':zip1'] = substr($this->fuzzy, 0, (strlen($this->fuzzy) -2)).' '.substr($this->fuzzy, -2);
-
-                }
-                break;
-
-            case 'PT':
-                // in Portugal they use - as binder, id " " is send we convert it.
-                $or->add($qb->expr()->eq('g.zipCode', ':zip1'));
-                $this->params[':zip1'] = str_replace(' ', '-', $this->fuzzy);
-                break;
-
-            case 'GR':
-            case 'SE':
-                // Sweeden and Greese uses the format "xxx xx" for zip codes, if a number is send, we convert it.
-                if (preg_match('/^[0-9]+$/', $this->fuzzy)) {
-                    $or->add($qb->expr()->eq('g.zipCode', ':zip1'));
-                    $this->params[':zip1'] = substr($this->fuzzy, 0, (strlen($this->fuzzy) -2)).' '.substr($this->fuzzy, -2);
-                }
-                break;
-        }
-
-        $qb->andWhere($or);
-        return $qb;
     }
 }

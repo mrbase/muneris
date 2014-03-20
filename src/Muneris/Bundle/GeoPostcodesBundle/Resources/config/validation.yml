@@ -1,0 +1,38 @@
+Muneris\Bundle\GeoPostcodesBundle\Entity\LocalGeoPostcode:
+    properties:
+        country:
+            - NotBlank: ~
+            - Country: ~
+        language:
+            - NotBlank: ~
+            - Language: ~
+            - Length:
+                min: 2
+                max: 2
+                exactMessage: Only {{ limit }} character language codes are accepted.
+        zipCode:
+            - NotBlank: ~
+            - Length:
+                min: 2
+                max: 10
+                minMessage: No zip codes below {{ limit }} characters.
+                maxMessage: No zip codes above {{ limit }} characters.
+        city:
+            - NotBlank: ~
+            - Length:
+                min: 2
+                max: 60
+                minMessage: No city names below {{ limit }} characters.
+                maxMessage: No city names above {{ limit }} characters.
+        lat:
+            - NotBlank: ~
+            - Regex:
+                pattern: "/^[0-9]{1,2}\.[0-9]+$/"
+                message: Latitude shoule be in the format xx.xxxxxx - digits only.
+        lng:
+            - NotBlank: ~
+            - Regex:
+                pattern: "/^[0-9]{1,2}\.[0-9]+$/"
+                message: Latitude shoule be in the format xx.xxxxxx - digits only.
+    constraints:
+        - Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity: zipCode

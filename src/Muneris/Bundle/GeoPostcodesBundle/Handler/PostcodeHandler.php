@@ -71,9 +71,8 @@ class PostcodeHandler
         $form->submit($parameters);
 
         if ($form->isValid()) {
-            $doctrine = $this->getDoctrine()->getManager();
-            $doctrine->persist($postcode);
-            $doctrine->flush();
+            $this->om->persist($postcode);
+            $this->om->flush();
 
             // on PUT and PATCH return 204 and not redirect response.
             if ('POST' !== $method) {

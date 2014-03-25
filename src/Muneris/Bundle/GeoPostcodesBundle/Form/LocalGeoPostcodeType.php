@@ -15,6 +15,7 @@ class LocalGeoPostcodeType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
+            ->add('id', null, ['required' => false])
             ->add('country')
             ->add('language')
             ->add('zipCode')

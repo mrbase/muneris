@@ -27,14 +27,13 @@ class LocalGeoPostcodeRepository extends EntityRepository
 
         $qb = $this->createQueryBuilder('g')
             ->where('g.country = :country')
-            ->groupBy('g.city')
+//            ->groupBy('g.city')
         ;
 
         $fb = new FuzzyBuilder($qb, $country, $fuzzy);
+        $fb->fuzz([':country' => $country]);
 
-        list($fb, $params) = $fb->fuzz($params);
-
-        $result = $fb->setParameters($params)
+        $result =  $qb->setParameters($fb->getParameters())
             ->getQuery()
             ->getResult()
         ;

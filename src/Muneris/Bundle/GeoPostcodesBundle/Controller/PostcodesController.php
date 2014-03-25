@@ -31,7 +31,7 @@ class PostcodesController extends FOSRestController
      *   },
      *   statusCodes = {
      *     200 = "Returned when successful",
-     *     404 = "Returned when the ressource is not found."
+     *     404 = "Returned when the resource is not found."
      *   }
      * )
      *
@@ -64,7 +64,7 @@ class PostcodesController extends FOSRestController
      *   },
      *   statusCodes = {
      *     200 = "Returned when successful",
-     *     404 = "Returned when the ressource is not found."
+     *     404 = "Returned when the resource is not found."
      *   }
      * )
      *
@@ -97,7 +97,7 @@ class PostcodesController extends FOSRestController
      *   },
      *   statusCodes = {
      *     200 = "Returned when successful",
-     *     404 = "Returned when the ressource is not found."
+     *     404 = "Returned when the resource is not found."
      *   }
      * )
      *
@@ -129,7 +129,7 @@ class PostcodesController extends FOSRestController
      *   },
      *   statusCodes = {
      *     200 = "Returned when successful",
-     *     404 = "Returned when the ressource is not found."
+     *     404 = "Returned when the resource is not found."
      *   }
      * )
      *
@@ -227,7 +227,7 @@ class PostcodesController extends FOSRestController
 
 
     /**
-     * Presents the form to use to create a new page.
+     * Presents the form to use to create a new postcode.
      *
      * @ApiDoc(
      *   resource    = true,
@@ -243,5 +243,69 @@ class PostcodesController extends FOSRestController
     public function newPostcodeAction()
     {
         return $this->createForm('localpostcode', new LocalGeoPostcode());
+    }
+
+    /**
+     * @param  int $id
+     * @return array
+     * @throws NotFoundHttpException
+     * @Cache(smaxage="86400")
+     *
+     * @ApiDoc(
+     *   resource     = true,
+     *   description  = "Fetch a local postcode by it's id.",
+     *   output       = "Muneris\Bundle\GeoPostcodesBundle\Entity\LocalGeoPostcode",
+     *   requirements = {
+     *     {"name"="id", "description"="Local id to lookup", "dataType"="int"}
+     *   },
+     *   statusCodes = {
+     *     200 = "Returned when successful",
+     *     404 = "Returned when the resource is not found."
+     *   }
+     * )
+     *
+     * @View()
+     */
+    public function getPostcodeAction($id)
+    {
+        if (null === $postcode = $this->container->get('muneris_geo_postcodes.postcode.handler')->findLocalById($id)) {
+            throw new NotFoundHttpException('No such postcode.');
+        }
+
+        return $postcode;
+    }
+
+    /**
+     * Deletes a local postcode.
+     *
+     * @param  int $id
+     * @return array
+     * @throws NotFoundHttpException
+     *
+     * @ApiDoc(
+     *   resource     = true,
+     *   description  = "Delete local postcode by it's id.",
+     *   requirements = {
+     *     {"name"="id", "description"="Local id to delete", "dataType"="int"}
+     *   },
+     *   statusCodes = {
+     *     204 = "Returned when successfully deleted",
+     *     404 = "Returned when the resource is not found."
+     *   }
+     * )
+     *
+     * @View()
+     */
+    public function deletePostcodeAction($id)
+    {
+        if (null === $postcode = $this->container->get('muneris_geo_postcodes.postcode.handler')->findLocalById($id)) {
+            throw new NotFoundHttpException('No such postcode.');
+        }
+
+        $om = $this->getDoctrine()->getManager();
+        $om->remove($postcode);
+        $om->flush();
+
+        return $this->view(null, Codes::HTTP_NO_CONTENT);
     }
 }

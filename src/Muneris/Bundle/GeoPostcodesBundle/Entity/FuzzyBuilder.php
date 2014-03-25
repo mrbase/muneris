@@ -35,7 +35,7 @@ class FuzzyBuilder
     {
         $this->qb      = $qb;
         $this->country = $country;
-        $this->fuzzy   = $fuzzy;
+        $this->fuzzy   = str_replace('*', '%', $fuzzy);
     }
 
 

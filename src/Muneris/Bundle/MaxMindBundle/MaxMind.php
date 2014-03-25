@@ -2,7 +2,7 @@
 
 namespace Muneris\Bundle\MaxMindBundle;
 
-use GeoIP2\WebService\Client;
+use GeoIp2\WebService\Client;
 use Muneris\Bundle\MaxMindBundle\Entity\MaxMindCache;
 use Psr\Log\LoggerInterface;
 use Doctrine\ORM\EntityManager;

@@ -35,7 +35,12 @@ class FuzzyBuilder
     {
         $this->qb      = $qb;
         $this->country = $country;
-        $this->fuzzy   = str_replace('*', '%', $fuzzy);
+
+        $this->fuzzy   = array_map(function($v) {
+            return trim(str_replace('*', '%', $v));
+        }, explode(',', $fuzzy));
+
+        error_log(print_r($this->fuzzy,1));
     }
 
 
@@ -50,64 +55,11 @@ class FuzzyBuilder
     {
         $this->params = $params;
 
-        if (preg_match('/^[a-z -]+$/i', $this->fuzzy)) {
-            $this->qb->andWhere('g.city LIKE :city');
-            $this->params[':city'] = $this->fuzzy;
-
-            return $this->qb;
+        foreach ($this->fuzzy as $fuzz) {
+            $result = $this->build($fuzz);
         }
 
-        $or = $this->qb->expr()->orX();
-
-        if (!preg_match('/^[0-9 -]+$/', $this->fuzzy)) {
-            $this->params[':city'] = $this->fuzzy;
-            $or->add($this->qb->expr()->like('g.city', ':city'));
-        }
-
-        $this->params[':zip'] = $this->fuzzy;
-        $or->add($this->qb->expr()->like('g.zipCode', ':zip'));
-
-        switch (strtoupper($this->country)) {
-            case 'FI':
-                // in Finland zip codes is always 5 digits with left padded zeros
-                $or->add($this->qb->expr()->like('g.zipCode', ':zip1'));
-                $this->params[':zip1'] = sprintf('%05d', $this->fuzzy);
-                break;
-
-            case 'GB':
-                $or->add($this->qb->expr()->like('g.zipCode', ':zip1'));
-                $this->params[':zip1'] = str_replace(' ', '', $this->fuzzy);
-                break;
-
-            case 'NL':
-                if (!preg_match('/^[0-9]+$/', $this->fuzzy)) {
-                    $or->add($this->qb->expr()->like('g.zipCode', ':zip1'));
-                    $this->params[':zip1'] = substr($this->fuzzy, 0, (strlen($this->fuzzy) -2)).' '.substr($this->fuzzy, -2);
-
-                }
-                break;
-
-            case 'PT':
-                // in Portugal they use - as binder, id " " is send we convert it.
-                $or->add($this->qb->expr()->like('g.zipCode', ':zip1'));
-                $this->params[':zip1'] = str_replace(' ', '-', $this->fuzzy);
-                break;
-
-            case 'GR':
-            case 'SE':
-                // Sweeden and Greese uses the format "xxx xx" for zip codes, if a number is send, we convert it.
-                if (preg_match('/^[0-9]+$/', $this->fuzzy)) {
-                    $or->add($this->qb->expr()->like('g.zipCode', ':zip1'));
-                    $this->params[':zip1'] = substr($this->fuzzy, 0, (strlen($this->fuzzy) -2)).' '.substr($this->fuzzy, -2);
-                }
-                break;
-        }
-
-        $this->qb->andWhere($or);
-
-        return [
-            $this->qb, $this->params
-        ];
+        return $result;
     }
 
     /**
@@ -124,5 +76,71 @@ class FuzzyBuilder
     public function getParameters()
     {
         return $this->params;
+    }
+
+    protected function build($fuzz)
+    {
+        static $loop = 0;
+        $loop++;
+
+        if (preg_match('/^[a-z -]+$/i', $fuzz)) {
+            $this->qb->andWhere('g.city LIKE :city'.$loop);
+            $this->params[':city'.$loop] = $fuzz;
+
+            return $this->qb;
+        }
+
+        $or = $this->qb->expr()->orX();
+
+        if (!preg_match('/^[0-9 -]+$/', $fuzz)) {
+            $this->params[':city'.$loop] = $fuzz;
+            $or->add($this->qb->expr()->like('g.city', ':city'.$loop));
+        }
+
+        $this->params[':zip'.$loop] = $fuzz;
+        $or->add($this->qb->expr()->like('g.zipCode', ':zip'.$loop));
+
+        $loop++;
+        switch (strtoupper($this->country)) {
+            case 'FI':
+                // in Finland zip codes is always 5 digits with left padded zeros
+                $or->add($this->qb->expr()->like('g.zipCode', ':zip'.$loop));
+                $this->params[':zip'.$loop] = sprintf('%05d', $fuzz);
+                break;
+
+            case 'GB':
+                $or->add($this->qb->expr()->like('g.zipCode', ':zip'.$loop));
+                $this->params[':zip'.$loop] = str_replace(' ', '', $fuzz);
+                break;
+
+            case 'NL':
+                if (!preg_match('/^[0-9]+$/', $fuzz)) {
+                    $or->add($this->qb->expr()->like('g.zipCode', ':zip'.$loop));
+                    $this->params[':zip'.$loop] = substr($fuzz, 0, (strlen($fuzz) -2)).' '.substr($fuzz, -2);
+
+                }
+                break;
+
+            case 'PT':
+                // in Portugal they use - as binder, id " " is send we convert it.
+                $or->add($this->qb->expr()->like('g.zipCode', ':zip'.$loop));
+                $this->params[':zip'.$loop] = str_replace(' ', '-', $fuzz);
+                break;
+
+            case 'GR':
+            case 'SE':
+                // Sweeden and Greese uses the format "xxx xx" for zip codes, if a number is send, we convert it.
+                if (preg_match('/^[0-9]+$/', $fuzz)) {
+                    $or->add($this->qb->expr()->like('g.zipCode', ':zip'.$loop));
+                    $this->params[':zip'.$loop] = substr($fuzz, 0, (strlen($fuzz) -2)).' '.substr($fuzz, -2);
+                }
+                break;
+        }
+
+        $this->qb->andWhere($or);
+
+        return [
+            $this->qb, $this->params
+        ];
     }
 }

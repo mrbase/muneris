@@ -56,6 +56,7 @@ class GeoPostcodeRepository extends EntityRepository
     {
         $qb = $this->createQueryBuilder('g')
             ->where('g.country = :country')
+            ->groupBy('g.country')
         ;
 
         $fb = new FuzzyBuilder($qb, $country, $fuzzy);

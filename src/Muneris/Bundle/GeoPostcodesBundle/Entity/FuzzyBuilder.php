@@ -39,8 +39,6 @@ class FuzzyBuilder
         $this->fuzzy   = array_map(function($v) {
             return trim(str_replace('*', '%', $v));
         }, explode(',', $fuzzy));
-
-        error_log(print_r($this->fuzzy,1));
     }
 
 

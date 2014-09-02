@@ -55,8 +55,9 @@ class GeoPostcodeRepository extends EntityRepository
     public function findByFuzzy($country, $fuzzy)
     {
         $qb = $this->createQueryBuilder('g')
+            ->addSelect('CONCAT(g.country, g.city, g.zipCode) AS HIDDEN _my_sort')
+            ->addGroupBy('_my_sort')
             ->where('g.country = :country')
-            ->groupBy('g.lat, g.lng, g.country')
             ->orderBy('g.city, g.zipCode')
         ;
 
